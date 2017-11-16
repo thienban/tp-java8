@@ -2,10 +2,12 @@ package java8.ex01;
 
 import java8.data.Data;
 import java8.data.Person;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Exercice 01 - Filter
@@ -19,8 +21,15 @@ public class Lambda_01_Test {
     // end::PersonPredicate[]
 
     // tag::filter[]
-    private List<Person> filter(List<Person> persons, PersonPredicate predicate) {
+    private List<Person> filter(List<Person> persons, PersonPredicate predicate) { // filter() filtre persons selon predicate 
         // TODO implementer la méthode
+    	List<Person> listeFiltre = new ArrayList<>();// créer une liste vide
+    	for (Person p: persons) {
+    		if (predicate.test(p)) { // test donnée personne 
+    			listeFiltre.add(p);
+    		}
+    	}
+    	
         return null;
     }
     // end::filter[]
@@ -33,8 +42,7 @@ public class Lambda_01_Test {
         List<Person> personList = Data.buildPersonList(100);
 
         // TODO result ne doit contenir que des personnes adultes (age >= 18)
-        List<Person> result = filter(personList, null);
-
+        List<Person> result = filter(personList, a->a.getAge()>=18);
         assert result.size() == 83;
 
         for (Person person : result) {
@@ -50,7 +58,7 @@ public class Lambda_01_Test {
         List<Person> personList = Data.buildPersonList(100);
 
         // TODO result ne doit contenir que des personnes dont le prénom est "first_10"
-        List<Person> result = filter(personList, null);
+        List<Person> result = filter(personList, prenom->prenom.getLastname().equals("first_10"));
 
         assert result.size() == 1;
         assert result.get(0).getFirstname().equals("first_10");
@@ -68,7 +76,7 @@ public class Lambda_01_Test {
 
         // TODO result ne doit contenir que les personnes dont l'age est > 49 et dont le hash du mot de passe correspond à la valeur de la variable passwordSha512Hex
         // TODO Pour obtenir le hash d'un mot, utiliser la méthode DigestUtils.sha512Hex(mot)
-        List<Person> result = filter(personList, null);
+        List<Person> result = filter(personList, a->a.getAge()>49 && passwordSha512Hex.equals(DigestUtils.sha512Hex(a.getPassword())));
 
         assert result.size() == 6;
         for (Person person : result) {
