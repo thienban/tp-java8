@@ -23,10 +23,12 @@ public class Lambda_02_Test {
     // tag::map[]
     private List<Account> map(List<Person> personList, PersonToAccountMapper mapper) {
         // TODO implémenter la méthode pour transformer une liste de personnes en liste de comptes
-    	List<Account> l = new ArrayList<>();
-    	
-    	
-        return null;
+    	List<Account> accounts  = new ArrayList<>();
+    	for (Person p : personList) {
+    		Account c = mapper.map(p);
+    		accounts.add(c);
+    	}
+        return accounts;
     }
     // end::map[]
 
